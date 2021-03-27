@@ -2,10 +2,13 @@ import java.util.Scanner;
 import java.util.logging.SimpleFormatter;
 
 public class Main {
+    
+    //TODO
+    // fix seat reservation method, it's one off
 
     private static int rows;
     private static int numberOfSeatsPerRow;
-    private static int totalSeats;
+
     private static int rowNumber;
     private static int seatNumber;
     private static Scanner input = new Scanner(System.in);
@@ -14,24 +17,33 @@ public class Main {
 
     public static void main(String[] args){
 
+        programStart();
+        seatingArrangement = createSeatingArrangement(rows, numberOfSeatsPerRow);
+        printSeatingArrangement();
+        getUserSeatCoordinates();
+        reserveSeat(rowNumber, seatNumber);
+        System.out.println(getTicketPrice(rows, numberOfSeatsPerRow, rowNumber));
+
+
+//        printSeatingArrangement();
+
+
+    }
+
+    private static void programStart(){
+        System.out.println("Welcome");
         System.out.println("Please enter the number of rows");
         rows = input.nextInt();
         System.out.println("Please enter the number of seats per row");
         numberOfSeatsPerRow = input.nextInt();
-        seatingArrangement = createSeatingArrangement(rows, numberOfSeatsPerRow);
-        printSeatingArrangement();
+    }
 
-        //seatingArrangement(rows, numberOfSeatsPerRow);
-
+    private static void getUserSeatCoordinates(){
         System.out.println("Please enter the row of the seat");
         rowNumber = input.nextInt();
+
         System.out.println("Please enter the seat number");
         seatNumber = input.nextInt();
-
-        reserveSeat(rowNumber, seatNumber);
-        printSeatingArrangement();
-        //calculateTicketCost();
-
     }
 
 
@@ -45,8 +57,6 @@ public class Main {
                 multiArray[i][j] = "S";
             }
         }
-        //set total seat size
-        totalSeats = rows * numberOfSeatsPerRow;
          //return array
         return multiArray;
     }
@@ -64,24 +74,42 @@ public class Main {
     }
 
     private static String[][] reserveSeat(int rowNumber, int seatNumber){
-        //get value of seat of arrangement
-        // isSeatReserved? "S" false, "B" true
-        // if false, reserve the seat
-            // if true "please pick another seat, this one is reserved
-
         if(seatingArrangement[rowNumber][seatNumber] == "S"){
             seatingArrangement[rowNumber][seatNumber] = "B";
+            System.out.println("Reserved seat number: " +seatNumber+ " in row number: " +rowNumber);
         }
+
+        printSeatingArrangement();
 
         return seatingArrangement;
     }
 
-    /*
-    In a larger room, the tickets are 10 dollars for the front half of the rows and 8 dollars for the back half.
-    Please note that the number of rows can be odd, for example, 9 rows.
-    In this case, the first half is the first 4 rows, and the second half is the rest 5 rows.
- */
-    public static void calculateTicketCost(int rows, int seatsPerRow){
+    public static int getTicketPrice(int rows, int numberOfSeatsPerRow, int rowNumber){
+
+        int totalSeats = rows * numberOfSeatsPerRow;
+        int frontHalfLastRow = rows / 2; //ex: 9/2 = 4 front rows
+        int backHalfFirstRow = rows - frontHalfLastRow; // ex: 9 - 4 = 5 back rows
+        int ticketPrice = 0;
+
+        if(totalSeats <= 60){
+            ticketPrice = 10;
+        } else{
+            // if size > 60, the ticket cost is 10 for the first half rows and 8 for the last half of rows
+            // determine if seat is in backhalf or fronthalf based on the rowNumber
+            if(rowNumber >= 1 && rowNumber <= frontHalfLastRow){// front half would be anything >= 1 && <= frontHalf
+                ticketPrice = 10;
+            } else if (rowNumber >= backHalfFirstRow && rowNumber <= rows){//back half would be anything >= backHalf && <= rows
+                ticketPrice = 8;
+            } else {
+                System.out.println("Unable to get ticket price");
+            }
+        }
+        // return ticket cost
+        return ticketPrice;
+    }
+
+
+    public static void calculateProfit(int rows, int seatsPerRow){
 
         int totalSeats = rows * seatsPerRow;
         int profit = 0;
@@ -100,23 +128,6 @@ public class Main {
         System.out.println("Total Income: " + "\n" + "$"+profit);
     }
 
-    public static void getTicketPrice(){
-        int ticketPrice = 0;
-        // calculate room size
-        // if size <= 60, then the ticket cost is 10
-        // if size > 60, the ticket cost is 10 for the first half rows and 8 for the last half of rows
-            // ex. if there are 9 rows total, the seats in the first 4 rows are 10, the seats in the last 5 are 8
-            // define first half of rows, define last half of rows
-            // determine if seat falls into first or last half
-        // return ticket cost
 
-        /*
-        *
-        If the total number of seats in the screen room is not more than 60, then the price of each ticket is 10 dollars.
-        In a larger room, the tickets are 10 dollars for the front half of the rows and 8 dollars for the back half.
-        Please note that the number of rows can be odd, for example, 9 rows. In this case, the first half is the first 4 rows, and the second half is the rest 5 rows.
-        * */
     }
-
-}
 
