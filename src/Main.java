@@ -5,6 +5,7 @@ public class Main {
 
     private static int rows;
     private static int numberOfSeatsPerRow;
+    private static int totalSeats;
     private static int rowNumber;
     private static int seatNumber;
     private static Scanner input = new Scanner(System.in);
@@ -44,6 +45,8 @@ public class Main {
                 multiArray[i][j] = "S";
             }
         }
+        //set total seat size
+        totalSeats = rows * numberOfSeatsPerRow;
          //return array
         return multiArray;
     }
@@ -99,6 +102,13 @@ public class Main {
 
     public static void getTicketPrice(){
         int ticketPrice = 0;
+        // calculate room size
+        // if size <= 60, then the ticket cost is 10
+        // if size > 60, the ticket cost is 10 for the first half rows and 8 for the last half of rows
+            // ex. if there are 9 rows total, the seats in the first 4 rows are 10, the seats in the last 5 are 8
+            // define first half of rows, define last half of rows
+            // determine if seat falls into first or last half
+        // return ticket cost
 
         /*
         *
