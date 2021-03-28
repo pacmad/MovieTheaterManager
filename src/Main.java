@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.logging.SimpleFormatter;
 
 public class Main {
-    
+
     //TODO
     // fix seat reservation method, it's one off
 
@@ -26,6 +26,7 @@ public class Main {
 
 
 //        printSeatingArrangement();
+        //
 
 
     }
