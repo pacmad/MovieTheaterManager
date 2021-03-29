@@ -21,8 +21,9 @@ public class Main {
         seatingArrangement = createSeatingArrangement(rows, numberOfSeatsPerRow);
         printSeatingArrangement();
         getUserSeatCoordinates();
-        reserveSeat(rowNumber, seatNumber);
         System.out.println(getTicketPrice(rows, numberOfSeatsPerRow, rowNumber));
+        reserveSeat(rowNumber, seatNumber);
+
 
 
 //        printSeatingArrangement();
@@ -75,8 +76,8 @@ public class Main {
     }
 
     private static String[][] reserveSeat(int rowNumber, int seatNumber){
-        if(seatingArrangement[rowNumber][seatNumber] == "S"){
-            seatingArrangement[rowNumber][seatNumber] = "B";
+        if(seatingArrangement[rowNumber - 1][seatNumber - 1] == "S"){
+            seatingArrangement[rowNumber - 1][seatNumber - 1] = "B";
             System.out.println("Reserved seat number: " +seatNumber+ " in row number: " +rowNumber);
         }
 
@@ -85,7 +86,7 @@ public class Main {
         return seatingArrangement;
     }
 
-    public static int getTicketPrice(int rows, int numberOfSeatsPerRow, int rowNumber){
+    public static String getTicketPrice(int rows, int numberOfSeatsPerRow, int rowNumber){
 
         int totalSeats = rows * numberOfSeatsPerRow;
         int frontHalfLastRow = rows / 2; //ex: 9/2 = 4 front rows
@@ -106,7 +107,8 @@ public class Main {
             }
         }
         // return ticket cost
-        return ticketPrice;
+
+        return "Ticket Price: " + ticketPrice;
     }
 
 
