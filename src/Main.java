@@ -17,23 +17,19 @@ public class Main {
 
     public static void main(String[] args){
 
-        programStart();
+        setTheaterSize();
         seatingArrangement = createSeatingArrangement(rows, numberOfSeatsPerRow);
-        printSeatingArrangement();
-        getUserSeatCoordinates();
-        System.out.println(getTicketPrice(rows, numberOfSeatsPerRow, rowNumber));
-        reserveSeat(rowNumber, seatNumber);
-
-
-
-//        printSeatingArrangement();
+        menu();
+        //printSeatingArrangement();
+        //getUserSeatCoordinates();
+        //System.out.println(getTicketPrice(rows, numberOfSeatsPerRow, rowNumber));
+        //reserveSeat(rowNumber, seatNumber);
         //
 
 
     }
 
-    private static void programStart(){
-        System.out.println("Welcome");
+    private static void setTheaterSize(){
         System.out.println("Please enter the number of rows");
         rows = input.nextInt();
         System.out.println("Please enter the number of seats per row");
@@ -41,11 +37,38 @@ public class Main {
     }
 
     private static void getUserSeatCoordinates(){
-        System.out.println("Please enter the row of the seat");
+        System.out.println("Please enter a row number:");
         rowNumber = input.nextInt();
 
-        System.out.println("Please enter the seat number");
+        System.out.println("Enter a seat number in that row:");
         seatNumber = input.nextInt();
+    }
+
+    private static void menu(){
+        boolean exit = false;
+        while(exit == false){
+            System.out.println("1. Show the seats\n2. Buy a ticket\n0. Exit");
+            int userInput = input.nextInt();
+            switch (userInput){
+                case 1:
+                    showSeats();
+                    break;
+                case 2:
+                    buyTicket();
+                    break;
+                case 0:
+                    System.out.println("Exiting the program");
+                    exit = true;
+                default:
+                    System.out.println("Invalid entry");
+            }
+        }
+    }
+
+    private static void buyTicket(){
+        getUserSeatCoordinates();
+        System.out.println(getTicketPrice(rows, numberOfSeatsPerRow, rowNumber));
+        reserveSeat(rowNumber, seatNumber);
     }
 
 
@@ -63,7 +86,7 @@ public class Main {
         return multiArray;
     }
 
-    private static void printSeatingArrangement(){
+    private static void showSeats(){
         System.out.println("Theatre:");
         System.out.println("  1 2 3 4 5 6 7 8 9"); // make this dynamic
         for(int i = 0; i <= seatingArrangement.length - 1; i++){
@@ -81,7 +104,7 @@ public class Main {
             System.out.println("Reserved seat number: " +seatNumber+ " in row number: " +rowNumber);
         }
 
-        printSeatingArrangement();
+        showSeats();
 
         return seatingArrangement;
     }
