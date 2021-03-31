@@ -4,13 +4,21 @@ import java.util.logging.SimpleFormatter;
 public class Main {
 
     //TODO
-    // fix seat reservation method, it's one off
-
+    // Statistics:
+    // 1. Current Income
+    // 2. Total Income
+    // 3. Statistics
+    // 0. Exit
     private static int rows;
     private static int numberOfSeatsPerRow;
-
     private static int rowNumber;
     private static int seatNumber;
+    private static int purchasedTickets;
+    private static double purchasedTicketsPercent = purchasedTickets / (rows * numberOfSeatsPerRow);
+
+    private static int currentIncome = 0; // how much money made so far
+    private static int totalIncome;
+    // change totalIncome name later
     private static Scanner input = new Scanner(System.in);
     private static String[][] seatingArrangement;
 
@@ -24,9 +32,6 @@ public class Main {
         //getUserSeatCoordinates();
         //System.out.println(getTicketPrice(rows, numberOfSeatsPerRow, rowNumber));
         //reserveSeat(rowNumber, seatNumber);
-        //
-
-
     }
 
     private static void setTheaterSize(){
@@ -56,6 +61,9 @@ public class Main {
                 case 2:
                     buyTicket();
                     break;
+                case 3:
+                    statistics();
+                    break;
                 case 0:
                     System.out.println("Exiting the program");
                     exit = true;
@@ -66,6 +74,7 @@ public class Main {
     }
 
     private static void buyTicket(){
+        // should not allow the user to buy a ticket that has already been purchased
         getUserSeatCoordinates();
         System.out.println(getTicketPrice(rows, numberOfSeatsPerRow, rowNumber));
         reserveSeat(rowNumber, seatNumber);
@@ -102,6 +111,8 @@ public class Main {
         if(seatingArrangement[rowNumber - 1][seatNumber - 1] == "S"){
             seatingArrangement[rowNumber - 1][seatNumber - 1] = "B";
             System.out.println("Reserved seat number: " +seatNumber+ " in row number: " +rowNumber);
+        } else {
+            System.out.println("Seat already reserved, please choose another seat");
         }
 
         showSeats();
@@ -109,7 +120,15 @@ public class Main {
         return seatingArrangement;
     }
 
-    public static String getTicketPrice(int rows, int numberOfSeatsPerRow, int rowNumber){
+    private static void statistics(){
+        // number of purchased tickets
+        // number of purchased tickets represented as a percentage - rounded to 2 decimal places
+        // current income
+        // total income shows how much money the theater will get if all of the tickets are sold
+        System.out.println(currentIncome);
+    }
+
+    private static String getTicketPrice(int rows, int numberOfSeatsPerRow, int rowNumber){
 
         int totalSeats = rows * numberOfSeatsPerRow;
         int frontHalfLastRow = rows / 2; //ex: 9/2 = 4 front rows
@@ -130,6 +149,8 @@ public class Main {
             }
         }
         // return ticket cost
+        // add ticketPrice to current income
+        currentIncome += ticketPrice;
 
         return "Ticket Price: " + ticketPrice;
     }
